@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Galaxitron High Intensity - FIX</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+          Helvetica, Arial, sans-serif;
+        background-color: #0d183b;
+        color: white;
+      }
+
+      .galaxy-wrapper {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100vh;
+        z-index: -1;
+        background: linear-gradient(
+          135deg,
+          #0f1c30 0%,
+          #02040a 50%,
+          #0f121d 100%
+        );
+        overflow: hidden;
+      }
+
+      .nebula-top-left {
+        position: absolute;
+        top: -10%;
+        left: -10%;
+        width: 70vw;
+        height: 70vh;
+        background: radial-gradient(
+          circle,
+          rgba(56, 189, 248, 0.4) 0%,
+          transparent 60%
+        );
+        filter: blur(80px);
+        mix-blend-mode: screen;
+        animation: breathe 8s ease-in-out infinite alternate;
+      }
+
+      .nebula-bottom-right {
+        position: absolute;
+        bottom: -20%;
+        right: -10%;
+        width: 80vw;
+        height: 80vh;
+        background: radial-gradient(
+          circle,
+          rgba(105, 107, 237, 0.35) 0%,
+          transparent 60%
+        );
+        filter: blur(80px);
+        mix-blend-mode: screen;
+        animation: breathe 8s ease-in-out infinite alternate-reverse;
+      }
+
+      .stars-small {
+        width: 1px;
+        height: 1px;
+        background: transparent;
+        box-shadow: 10vw 15vh white, 30vw 60vh white, 60vw 10vh white,
+          90vw 80vh white, 15vw 85vh white, 45vw 45vh white, 75vw 25vh white,
+          85vw 5vh white, 5vw 40vh white, 50vw 90vh white, 12vw 8vh white,
+          25vw 18vh white, 38vw 5vh white, 55vw 15vh white, 68vw 8vh white,
+          82vw 22vh white, 95vw 12vh white, 4vw 65vh white, 18vw 55vh white,
+          35vw 75vh white, 52vw 65vh white, 62vw 85vh white, 78vw 92vh white,
+          92vw 65vh white, 22vw 95vh white, 42vw 88vh white, 8vw 12vh white,
+          14vw 70vh white, 28vw 82vh white, 33vw 48vh white, 41vw 32vh white,
+          57vw 93vh white, 63vw 27vh white, 70vw 58vh white, 79vw 12vh white,
+          97vw 42vh white, 11vw 50vh white, 19vw 22vh white, 24vw 72vh white,
+          39vw 88vh white, 46vw 10vh white, 58vw 20vh white, 73vw 39vh white,
+          87vw 55vh white, 93vw 78vh white, 98vw 95vh white;
+        animation: drift 100s linear infinite;
+      }
+
+      .stars-medium {
+        width: 2px;
+        height: 2px;
+        background: transparent;
+        opacity: 0.6;
+        box-shadow: 20vw 25vh #a5b4fc, 55vw 75vh #a5b4fc, 85vw 15vh #a5b4fc,
+          10vw 90vh #a5b4fc, 40vw 20vh #a5b4fc, 5vw 10vh #a5b4fc,
+          32vw 35vh #a5b4fc, 65vw 45vh #a5b4fc, 92vw 35vh #a5b4fc,
+          15vw 55vh #a5b4fc, 48vw 65vh #a5b4fc, 72vw 85vh #a5b4fc,
+          88vw 95vh #a5b4fc, 28vw 5vh #a5b4fc, 25vw 18vh white, 38vw 5vh white,
+          55vw 15vh white, 68vw 8vh white, 82vw 22vh white, 95vw 12vh white,
+          4vw 65vh white, 18vw 55vh white, 35vw 75vh white, 52vw 65vh white,
+          62vw 85vh white, 78vw 92vh white, 92vw 65vh white, 22vw 95vh white,
+          42vw 88vh white, 7vw 45vh #a5b4fc, 13vw 12vh #a5b4fc,
+          29vw 62vh #a5b4fc, 34vw 82vh #a5b4fc, 44vw 29vh #a5b4fc,
+          59vw 50vh #a5b4fc, 67vw 78vh #a5b4fc, 81vw 33vh #a5b4fc,
+          94vw 20vh #a5b4fc, 16vw 40vh #a5b4fc, 22vw 75vh #a5b4fc,
+          37vw 56vh #a5b4fc, 47vw 92vh #a5b4fc, 66vw 12vh #a5b4fc,
+          71vw 70vh #a5b4fc, 86vw 50vh #a5b4fc, 96vw 33vh #a5b4fc,
+          18vw 28vh white, 54vw 82vh white, 83vw 97vh white;
+        animation: drift 140s linear infinite;
+      }
+
+      @keyframes drift {
+        from {
+          transform: translateY(0px);
+        }
+        to {
+          transform: translateY(-100px);
+        }
+      }
+      @keyframes breathe {
+        0% {
+          opacity: 0.7;
+          transform: scale(1);
+        }
+        100% {
+          opacity: 1;
+          transform: scale(1.1);
+        }
+      }
+
+      .content-container {
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+        padding: 50px 0;
+        align-items: center;
+        width: 100%;
+      }
+
+      .demo-glass-card {
+        width: 400px;
+        padding: 40px;
+        background: rgba(13, 25, 48, 0.4);
+        backdrop-filter: blur(16px);
+        -webkit-backdrop-filter: blur(16px);
+        border: 1px solid rgba(255, 255, 255, 0.15);
+        border-top: 1px solid rgba(255, 255, 255, 0.3);
+        border-radius: 24px;
+        box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+        text-align: center;
+      }
+
+      h1 {
+        margin-bottom: 16px;
+        font-weight: 700;
+        letter-spacing: 1px;
+        background: linear-gradient(to right, #fff, #a5b4fc);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+      }
+      p {
+        color: #cbd5e1;
+        line-height: 1.6;
+        font-size: 15px;
+      }
+      .btn {
+        margin-top: 24px;
+        padding: 14px 36px;
+        background: linear-gradient(to right, #3b82f6, #6366f1);
+        border: none;
+        color: white;
+        border-radius: 30px;
+        font-size: 14px;
+        font-weight: 600;
+        cursor: pointer;
+        box-shadow: 0 0 20px rgba(59, 130, 246, 0.5);
+        transition: transform 0.2s;
+      }
+      .btn:hover {
+        transform: scale(1.05);
+      }
+    </style>
+  </head>
+  <body>
+    <div class="galaxy-wrapper">
+      <div class="nebula-top-left"></div>
+      <div class="nebula-bottom-right"></div>
+      <div class="stars-small"></div>
+      <div class="stars-medium"></div>
+    </div>
+
+    <div class="content-container">
+      <div class="demo-glass-card">
+        <h1>GALAXITRON V2</h1>
+        <p>
+          1 of 4: The background now covers the entire document height, allowing
+          you to scroll down and view more content without the effect breaking.
+        </p>
+        <button class="btn">Initialize</button>
+      </div>
+
+      <div class="demo-glass-card">
+        <h1>SCROLL TEST</h1>
+        <p>
+          2 of 4: You should see the stars and nebulas scroll with this card as
+          they are both part of the document flow now.
+        </p>
+        <button class="btn">Initialize</button>
+      </div>
+
+      <div class="demo-glass-card">
+        <h1>UI INTEGRITY</h1>
+        <p>
+          3 of 4: The `backdrop-filter` is working correctly, blurring the
+          starry background behind the semi-transparent glass card.
+        </p>
+        <button class="btn">Initialize</button>
+      </div>
+
+      <div class="demo-glass-card">
+        <h1>SCROLL END</h1>
+        <p>
+          4 of 4: This is the final card. The background must still be visible
+          below this point until the end of the scrollable area.
+        </p>
+        <button class="btn">Initialize</button>
+      </div>
+    </div>
+  </body>
+</html>
