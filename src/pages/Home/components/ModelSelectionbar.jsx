@@ -7,7 +7,14 @@ import m2q from "@/assets/m2q.png";
 import q2d from "@/assets/q2d.png";
 import q2f from "@/assets/q2f.png";
 import { cn } from "@/lib/utils";
-import { User } from "lucide-react";
+import { LogOut, User } from "lucide-react";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
+import { Button } from "@/components/ui/button";
+import { useNavigate } from "react-router-dom";
 
 const models = [
   { id: "c2c", src: c2c, alt: "C2C" },
@@ -20,6 +27,7 @@ const models = [
 
 const ModelSelectionbar = () => {
   const [selectedModel, setSelectedModel] = useState("c2c");
+  const navigate = useNavigate();
 
   return (
     <aside className="flex flex-col items-center py-6 border-r border-primary/10 shadow-lg shadow-primary/20 bg-black/20 backdrop-blur-sm">
@@ -70,15 +78,39 @@ const ModelSelectionbar = () => {
         ))}
       </div>
 
-      <div className="flex items-center gap-2 mt-auto mb-8 cursor-pointer p-3 rounded-2xl">
-        <div className="flex border-2 border-white/80 shadow-lg shadow-muted-foreground/40 rounded-full p-1">
-          <User size={22} />
-        </div>
-        <div className="flex flex-col">
-          <span className="text-sm">John Doe</span>
-          <span className="text-xs text-white/60">Free</span>
-        </div>
-      </div>
+      <Popover>
+        <PopoverTrigger className="flex items-center gap-2 mt-auto mb-8 cursor-pointer p-3 rounded-2xl">
+          <div className="flex border-2 border-white/80 shadow-lg shadow-muted-foreground/40 rounded-full p-1">
+            <User size={22} />
+          </div>
+          <div className="flex flex-col">
+            <span className="text-sm">John Doe</span>
+            <span className="text-xs text-white/60">Free</span>
+          </div>
+        </PopoverTrigger>
+        <PopoverContent
+          side="top"
+          align="center"
+          sideOffset={6}
+          className="w-34 flex flex-col p-1.5"
+        >
+          <Button
+            onClick={() => navigate("/profile")}
+            variant={"ghost"}
+            className="text-base rounded-xl"
+          >
+            <User className="h-5 w-5" />
+            Profile
+          </Button>
+          <Button
+            variant={"ghost"}
+            className="text-base rounded-xl text-destructive/75 hover:bg-destructive/20 hover:text-destructive"
+          >
+            <LogOut className="h-5 w-5" />
+            Logout
+          </Button>
+        </PopoverContent>
+      </Popover>
     </aside>
   );
 };
