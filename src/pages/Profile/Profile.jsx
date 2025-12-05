@@ -4,6 +4,7 @@ import Cropper from "react-easy-crop";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import BackButton from "@/components/ui/back-button";
 
 const Profile = () => {
   const [profileImage, setProfileImage] = useState(null);
@@ -23,28 +24,8 @@ const Profile = () => {
   });
 
   useEffect(() => {
-    console.log("Profile Image changed: ", profileImage);
-  }, [profileImage]);
-
-  useEffect(() => {
-    console.log("Zoom changed: ", zoom);
-  }, [zoom]);
-
-  useEffect(() => {
-    console.log("Crop changed: ", crop);
-  }, [crop]);
-
-  useEffect(() => {
     console.log("Cropped Area Pixels changed: ", croppedAreaPixels);
   }, [croppedAreaPixels]);
-
-  useEffect(() => {
-    console.log("Show Cropper changed: ", showCropper);
-  }, [showCropper]);
-
-  useEffect(() => {
-    console.log("Temp Image changed: ", tempImage);
-  }, [tempImage]);
 
   const handleImageSelect = (e) => {
     const file = e.target.files?.[0];
@@ -61,7 +42,6 @@ const Profile = () => {
   };
 
   const onCropComplete = useCallback((_, croppedAreaPixels) => {
-    console.log("Hitting onCropComplete");
     setCroppedAreaPixels(croppedAreaPixels);
   }, []);
 
@@ -129,7 +109,11 @@ const Profile = () => {
 
   return (
     <div className="h-screen">
-      <div className="pt-20 flex flex-col items-center justify-center xl:px-20 px-10 max-lg:px-8">
+      <div className="pt-12 flex flex-col justify-center xl:px-20 px-10 max-lg:px-8">
+        <div className="w-full mb-10 ml-4">
+          <BackButton label="Back to Home" />
+        </div>
+
         <div className="w-full mb-6 ml-4">
           <h1 className="text-4xl font-bold gradient-heading mb-2">
             Profile Settings
@@ -179,7 +163,7 @@ const Profile = () => {
                 />
 
                 <p className="text-sm text-foreground/60 text-center">
-                  Click the camera icon to upload
+                  Click the camera icon to upload the image
                 </p>
               </div>
             </div>
