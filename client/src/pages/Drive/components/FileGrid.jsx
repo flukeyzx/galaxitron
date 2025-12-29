@@ -144,17 +144,17 @@ const FileCard = ({ item, onDelete, onRename }) => (
             >
               <button
                 onClick={() => onRename(item.id)}
-                className="w-full flex items-center gap-2 px-2 py-1.5 text-sm rounded-sm hover:bg-slate-700/50 text-slate-200 transition-colors"
+                className="cursor-pointer w-full flex items-center gap-2 px-2 py-1.5 text-sm rounded-sm hover:bg-slate-700/50 text-slate-200 transition-colors"
               >
                 <Pencil className="h-4 w-4" /> Rename
               </button>
-              <button className="w-full flex items-center gap-2 px-2 py-1.5 text-sm rounded-sm hover:bg-slate-700/50 text-slate-200 transition-colors">
+              <button className="cursor-pointer w-full flex items-center gap-2 px-2 py-1.5 text-sm rounded-sm hover:bg-slate-700/50 text-slate-200 transition-colors">
                 <Download className="h-4 w-4" /> Download
               </button>
               <div className="h-px bg-white/10 my-1" />
               <button
                 onClick={() => onDelete(item.id)}
-                className="w-full flex items-center gap-2 px-2 py-1.5 text-sm rounded-sm hover:bg-red-500/20 text-red-400 hover:text-red-300 transition-colors"
+                className="cursor-pointer w-full flex items-center gap-2 px-2 py-1.5 text-sm rounded-sm hover:bg-red-500/20 text-red-400 hover:text-red-300 transition-colors"
               >
                 <Trash className="h-4 w-4" /> Delete
               </button>

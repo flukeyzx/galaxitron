@@ -8,7 +8,7 @@ import Drive from "../Drive/Drive";
 
 const Home = () => {
   const { user } = useAuth();
-  const [selectedModel, setSelectedModel] = useState("c2c");
+  const [selectedModel, setSelectedModel] = useState("drive");
 
   const navigate = useNavigate();
 

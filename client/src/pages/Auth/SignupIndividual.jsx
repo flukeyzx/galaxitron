@@ -165,8 +165,17 @@ const SignupIndividual = () => {
                   <SelectValue placeholder="Select a role" />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="admin">Admin</SelectItem>
-                  <SelectItem value="user">User</SelectItem>
+                  <SelectItem value="quality-manager">
+                    Quality Manager
+                  </SelectItem>
+                  <SelectItem value="director-of-quality">
+                    Director of Quality
+                  </SelectItem>
+                  <SelectItem value="engineer">Engineer</SelectItem>
+                  <SelectItem value="operations">Operations</SelectItem>
+                  <SelectItem value="contracts">Contracts</SelectItem>
+                  <SelectItem value="supply-chain">Supply Chain</SelectItem>
+                  <SelectItem value="other">Other</SelectItem>
                 </SelectContent>
               </Select>
             </div>
@@ -226,6 +235,8 @@ const SignupIndividual = () => {
                 <SelectContent>
                   <SelectItem value="US">US</SelectItem>
                   <SelectItem value="UK">UK</SelectItem>
+                  <SelectItem value="EU">EU</SelectItem>
+                  <SelectItem value="GLOBAL">Global</SelectItem>
                 </SelectContent>
               </Select>
             </div>
@@ -381,6 +392,82 @@ const SignupIndividual = () => {
                 label="No - some exclusions"
               />
             </RadioGroup>
+
+            {formData.qmsClauses === "No" && (
+              <Dialog>
+                <DialogOverlay />
+                <form>
+                  <div className="flex justify-between px-4 items-center mt-4 text-lg font-semibold">
+                    <span>Open Dialog to select clauses for exclusion</span>
+
+                    <DialogTrigger asChild>
+                      <Button variant="outline" className="px-8!">
+                        <Ban />
+                        Add Exclusions
+                      </Button>
+                    </DialogTrigger>
+                  </div>
+
+                  <DialogContent>
+                    <DialogHeader>
+                      <DialogTitle className="text-2xl">
+                        AS9100 Clause Exclusions
+                      </DialogTitle>
+                      <DialogDescription>
+                        Please select the clauses you would like to exclude from
+                        your AS9100 audit.
+                      </DialogDescription>
+                    </DialogHeader>
+
+                    <div className="flex flex-col gap-4 mt-2">
+                      <ExclusionCheckbox
+                        id="8.3"
+                        label="Clause 8.3 - Design & Development"
+                        checked={formData.clauseExclusions.includes("8.3")}
+                        onCheckedChange={() => toggleCheckedChange("8.3")}
+                      />
+
+                      <ExclusionCheckbox
+                        id="8.5"
+                        label="Clause 8.5 - Production"
+                        checked={formData.clauseExclusions.includes("8.5")}
+                        onCheckedChange={() => toggleCheckedChange("8.5")}
+                      />
+
+                      <ExclusionCheckbox
+                        id="8.7"
+                        label="Clause 8.7 - Quality System"
+                        checked={formData.clauseExclusions.includes("8.7")}
+                        onCheckedChange={() => toggleCheckedChange("8.7")}
+                      />
+                    </div>
+
+                    <DialogFooter className="mt-8">
+                      <DialogClose asChild>
+                        <Button
+                          onClick={() => {
+                            setFormData({
+                              ...formData,
+                              clauseExclusions: [],
+                            });
+                          }}
+                          variant="outline"
+                          className="flex gap-2 px-12!"
+                        >
+                          <CircleX />
+                          Cancel
+                        </Button>
+                      </DialogClose>
+                      <DialogClose asChild>
+                        <Button className="flex gap-2 px-12!">
+                          Save <Save />
+                        </Button>
+                      </DialogClose>
+                    </DialogFooter>
+                  </DialogContent>
+                </form>
+              </Dialog>
+            )}
           </div>
 
           <div className="flex flex-col justify-between w-full gap-2">
@@ -419,80 +506,6 @@ const SignupIndividual = () => {
                 label="High"
               />
             </RadioGroup>
-
-            <Dialog>
-              <DialogOverlay />
-              <form>
-                <div className="flex justify-between px-4 items-center mt-4 text-lg font-semibold">
-                  <span>Do you have AS9100 clauses exclusions?</span>
-
-                  <DialogTrigger asChild>
-                    <Button variant="outline" className="px-8!">
-                      <Ban />
-                      Add Exclusions
-                    </Button>
-                  </DialogTrigger>
-                </div>
-
-                <DialogContent>
-                  <DialogHeader>
-                    <DialogTitle className="text-2xl">
-                      AS9100 Clause Exclusions
-                    </DialogTitle>
-                    <DialogDescription>
-                      Please select the clauses you would like to exclude from
-                      your AS9100 audit.
-                    </DialogDescription>
-                  </DialogHeader>
-
-                  <div className="flex flex-col gap-4 mt-2">
-                    <ExclusionCheckbox
-                      id="8.3"
-                      label="Clause 8.3 - Design & Development"
-                      checked={formData.clauseExclusions.includes("8.3")}
-                      onCheckedChange={() => toggleCheckedChange("8.3")}
-                    />
-
-                    <ExclusionCheckbox
-                      id="8.5"
-                      label="Clause 8.5 - Production"
-                      checked={formData.clauseExclusions.includes("8.5")}
-                      onCheckedChange={() => toggleCheckedChange("8.5")}
-                    />
-
-                    <ExclusionCheckbox
-                      id="8.7"
-                      label="Clause 8.7 - Quality System"
-                      checked={formData.clauseExclusions.includes("8.7")}
-                      onCheckedChange={() => toggleCheckedChange("8.7")}
-                    />
-                  </div>
-
-                  <DialogFooter className="mt-8">
-                    <DialogClose asChild>
-                      <Button
-                        onClick={() => {
-                          setFormData({
-                            ...formData,
-                            clauseExclusions: [],
-                          });
-                        }}
-                        variant="outline"
-                        className="flex gap-2 px-12!"
-                      >
-                        <CircleX />
-                        Cancel
-                      </Button>
-                    </DialogClose>
-                    <DialogClose asChild>
-                      <Button className="flex gap-2 px-12!">
-                        Save <Save />
-                      </Button>
-                    </DialogClose>
-                  </DialogFooter>
-                </DialogContent>
-              </form>
-            </Dialog>
           </div>
 
           <div
