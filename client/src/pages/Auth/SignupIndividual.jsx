@@ -397,8 +397,10 @@ const SignupIndividual = () => {
               <Dialog>
                 <DialogOverlay />
                 <form>
-                  <div className="flex justify-between px-4 items-center mt-4 text-lg font-semibold">
-                    <span>Open Dialog to select clauses for exclusion</span>
+                  <div className="flex justify-between px-4 items-center mt-4 text-lg">
+                    <span>
+                      Click <strong>Add Exclusions</strong> to exclude clauses.
+                    </span>
 
                     <DialogTrigger asChild>
                       <Button variant="outline" className="px-8!">
