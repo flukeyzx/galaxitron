@@ -7,6 +7,7 @@ import { Toaster } from "@/components/ui/sonner";
 const Home = lazy(() => import("./pages/Home/Home"));
 const Login = lazy(() => import("./pages/Auth/Login"));
 const Signup = lazy(() => import("./pages/Auth/Signup"));
+const SignupIndividual = lazy(() => import("./pages/Auth/SignupIndividual"));
 const Profile = lazy(() => import("./pages/Profile/Profile"));
 
 const App = () => {
@@ -21,6 +22,8 @@ const App = () => {
             <Route path="/" element={<Home />} />
             <Route path="/signin" element={<Login />} />
             <Route path="/signup" element={<Signup />} />
+            <Route path="/signup-individual" element={<SignupIndividual />} />
+
             <Route path="/profile" element={<Profile />} />
           </Routes>
         </Router>

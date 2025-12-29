@@ -1,4 +1,4 @@
-import express, { Request, Response } from "express";
+import express from "express";
 
 import testRoutes from "./routes/test.routes.js";
 import errorHandler from "./middlewares/errorHandler.middleware.js";

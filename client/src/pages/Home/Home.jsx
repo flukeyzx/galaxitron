@@ -1,12 +1,14 @@
 import { useAuth } from "@/context/AuthContext";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import ModelSelectionbar from "./components/ModelSelectionbar";
 import Chat from "./components/Chat";
 import Main from "./components/Main";
+import Drive from "../Drive/Drive";
 
 const Home = () => {
   const { user } = useAuth();
+  const [selectedModel, setSelectedModel] = useState("c2c");
 
   const navigate = useNavigate();
 
@@ -23,11 +25,20 @@ const Home = () => {
 
   return (
     <div className="grid grid-cols-[1fr_6fr_2fr] max-lg:grid-cols-[1fr_5fr_2fr] h-screen">
-      <ModelSelectionbar />
+      <ModelSelectionbar
+        selectedModel={selectedModel}
+        onSelectModel={setSelectedModel}
+      />
 
-      <Main />
+      {selectedModel === "drive" ? (
+        <Drive />
+      ) : (
+        <>
+          <Main />
 
-      <Chat />
+          <Chat />
+        </>
+      )}
     </div>
   );
 };

@@ -41,95 +41,27 @@ const Signup = () => {
 
   return (
     <div className="flex items-center justify-center h-screen">
-      <GlassCard className="flex flex-col items-center justify-center p-8">
-        <div className="flex flex-col items-center mb-8 text-center  gradient-heading">
-          <h2 className="text-3xl font-bold mb-2">Sign Up to Get Started</h2>
-          <p className="text-white/60 text-sm max-w-xs">
-            Please enter your personal details to create an account.
-          </p>
-        </div>
+      <GlassCard className="flex flex-col items-center justify-center px-12 py-16 gap-6 max-w-2xl">
+        <h2 className="gradient-heading text-3xl font-bold text-center">
+          Build Autonomouse AS9100 Compliance Without the Audit Panic
+        </h2>
 
-        <form onSubmit={handleSignup} className="flex flex-col gap-4 w-full">
-          <div className="flex flex-col gap-2">
-            <label className="text-xs font-medium text-white/80 uppercase tracking-wider ml-2">
-              Enter Full Name
-            </label>
-            <div className="flex flex-col gap-2">
-              <Input
-                icon={<User size={18} />}
-                type="text"
-                placeholder="e.g.  John Doe"
-                className="h-12"
-                value={name}
-                onChange={(e) => setName(e.target.value)}
-              />
-            </div>
-          </div>
-
-          <div className="flex flex-col gap-2">
-            <label className="text-xs font-medium text-white/80 uppercase tracking-wider ml-2">
-              Enter Email
-            </label>
-            <div className="flex flex-col gap-2">
-              <Input
-                icon={<Mail size={18} />}
-                type="email"
-                placeholder="e.g.  johndoe@gmail.com"
-                className="h-12"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-              />
-            </div>
-          </div>
-
-          <div className="flex flex-col gap-2">
-            <label className="text-xs font-medium text-white/80 uppercase tracking-wider ml-2">
-              Enter Password
-            </label>
-            <Input
-              icon={<Key size={18} />}
-              type="password"
-              placeholder="e.g. 12345678"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-            />
-          </div>
-
-          <div>
-            <p className="text-[10px] text-white/30 uppercase tracking-widest text-right pr-4">
-              Already have an account?{" "}
-              <Link
-                to="/signin"
-                className="text-white/60 underline cursor-pointer"
-              >
-                Sign In
-              </Link>
-            </p>
-          </div>
+        <div className="flex flex-col gap-2 px-12 py-4">
+          <Button
+            onClick={() => navigate("/signup-individual")}
+            variant="gradient"
+            size="lg"
+            className="px-22"
+          >
+            Continue As An Individual
+          </Button>
 
           <Button
-            disabled={isLoading}
-            variant={"gradient"}
-            className="h-12 text-lg w-full rounded-3xl mt-1"
+            size="lg"
+            className="rounded-full bg-cyan-500 hover:bg-cyan-500 px-22 transition-transform duration-200 hover:scale-105"
           >
-            {isLoading ? (
-              <ButtonLoader
-                text={<span className="ml-2 font-normal">Signing up...</span>}
-              />
-            ) : (
-              "Sign Up"
-            )}
+            Setting Up For A Team
           </Button>
-        </form>
-
-        <div className="mt-8 text-center">
-          <p className="text-[10px] text-white/30 uppercase tracking-widest">
-            By Signing in, you agree to our{" "}
-            <span className="text-white/60 underline cursor-pointer">
-              Terms and Conditions
-            </span>
-            .
-          </p>
         </div>
       </GlassCard>
     </div>

@@ -6,6 +6,7 @@ import d2m from "@/assets/d2m.png";
 import m2q from "@/assets/m2q.png";
 import q2d from "@/assets/q2d.png";
 import q2f from "@/assets/q2f.png";
+import drive from "@/assets/drive.png";
 import { cn } from "@/lib/utils";
 import { LogOut, User } from "lucide-react";
 import {
@@ -17,6 +18,7 @@ import { Button } from "@/components/ui/button";
 import { useNavigate } from "react-router-dom";
 
 const models = [
+  { id: "drive", src: drive, alt: "Drive" },
   { id: "c2c", src: c2c, alt: "C2C" },
   { id: "c2d", src: c2d, alt: "C2D" },
   { id: "d2m", src: d2m, alt: "D2M" },
@@ -25,13 +27,12 @@ const models = [
   { id: "q2f", src: q2f, alt: "Q2F" },
 ];
 
-const ModelSelectionbar = () => {
-  const [selectedModel, setSelectedModel] = useState("c2c");
+const ModelSelectionbar = ({ selectedModel, onSelectModel }) => {
   const navigate = useNavigate();
 
   return (
     <aside className="flex flex-col items-center py-6 border-r border-primary/10 shadow-lg shadow-primary/20 bg-black/20 backdrop-blur-sm">
-      <div className="mb-8 px-4">
+      <div className="mb-6 px-4">
         <img
           src={galaxyLogo}
           alt="Galaxy Logo"
@@ -43,7 +44,7 @@ const ModelSelectionbar = () => {
         {models.map((model) => (
           <button
             key={model.id}
-            onClick={() => setSelectedModel(model.id)}
+            onClick={() => onSelectModel(model.id)}
             className={cn(
               "cursor-pointer group relative flex items-center justify-center p-3 rounded-2xl transition-all duration-300",
               "hover:bg-white/5",
@@ -79,7 +80,7 @@ const ModelSelectionbar = () => {
       </div>
 
       <Popover>
-        <PopoverTrigger className="flex items-center gap-2 mt-auto mb-8 cursor-pointer p-3 rounded-2xl">
+        <PopoverTrigger className="flex items-center gap-2 mt-auto mb-6 cursor-pointer p-3 rounded-2xl">
           <div className="flex border-2 border-white/80 shadow-lg shadow-muted-foreground/40 rounded-full p-1">
             <User size={22} />
           </div>

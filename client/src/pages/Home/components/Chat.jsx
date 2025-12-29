@@ -46,14 +46,14 @@ const Chat = () => {
               <Button
                 size="icon"
                 variant="ghost"
-                className="h-9 w-9 rounded-full text-white/60 hover:text-white hover:bg-white/10"
+                className="h-9 p-0 rounded-full text-white/60 hover:text-white hover:bg-white/10"
               >
                 <Plus size={20} />
               </Button>
               <Button
                 size="icon"
                 variant="ghost"
-                className="h-9 w-9 rounded-full text-white/60 hover:text-white hover:bg-white/10"
+                className="h-9 p-0 rounded-full text-white/60 hover:text-white hover:bg-white/10"
               >
                 <Mic size={20} />
               </Button>
@@ -62,7 +62,7 @@ const Chat = () => {
             <div>
               <Button
                 size="icon"
-                className="h-9 w-9 rounded-full bg-white text-black hover:bg-white/90 shadow-lg shadow-white/10 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
+                className="h-10 w-10 p-0 rounded-full bg-white text-black hover:bg-white/90 shadow-lg shadow-white/10 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
                 j
               >
                 <ArrowUp size={20} strokeWidth={2.5} />
