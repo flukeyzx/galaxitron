@@ -55,7 +55,6 @@ const SignupIndividual = () => {
     industry: "",
     primaryMarket: "",
     companySize: "",
-    certificationStatus: "",
     qmsOwner: "quality-manager",
     auditConfidence: "low",
     certificationStatus: "certified",
