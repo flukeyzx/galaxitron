@@ -14,6 +14,28 @@ datasource db {
 }
 
 model User {
-  id String @id @default(uuid())
+  id   String @id @default(uuid())
   name String
+}
+
+enum DriveItemType {
+  FOLDER
+  FILE
+}
+
+model DriveItem {
+  id        String        @id @default(uuid())
+  name      String
+  type      DriveItemType
+  color     String?
+  tags      String[]
+  size      BigInt?
+  itemCount Int?
+
+  parentId String?
+  parent   DriveItem?  @relation("DriveItemChildren", fields: [parentId], references: [id])
+  children DriveItem[] @relation("DriveItemChildren")
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }

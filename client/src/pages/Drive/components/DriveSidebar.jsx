@@ -89,6 +89,7 @@ export const DriveSidebar = ({ onCreateFolder, onUploadFile }) => {
         onOpenChange={setIsCreateFolderOpen}
         onCreate={onCreateFolder}
       />
+
       <input
         type="file"
         multiple

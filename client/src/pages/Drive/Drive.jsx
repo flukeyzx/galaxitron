@@ -229,6 +229,7 @@ const Drive = () => {
         <div className="absolute bottom-[-10%] left-[10%] w-[400px] h-[400px] bg-purple-600/10 rounded-full blur-[100px] pointer-events-none" />
 
         <DriveHeader viewMode={viewMode} setViewMode={setViewMode} />
+
         <DriveBreadcrumbs
           breadcrumbs={getBreadcrumbs()}
           onNavigate={openFolder}

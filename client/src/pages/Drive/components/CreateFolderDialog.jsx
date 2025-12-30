@@ -4,6 +4,7 @@ import {
   DialogContent,
   DialogHeader,
   DialogTitle,
+  DialogDescription,
   DialogFooter,
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
@@ -39,13 +40,14 @@ export const CreateFolderDialog = ({ open, onOpenChange, onCreate }) => {
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
-          <DialogTitle className="flex items-center gap-2 text-white">
+          <DialogTitle className="flex items-center gap-2 text-white -mb-2">
             <Folder
               className="h-5 w-5 fill-current"
               style={{ color: selectedColor }}
             />
             Create Folder
           </DialogTitle>
+          <DialogDescription></DialogDescription>
         </DialogHeader>
         <div className="grid gap-6 py-4">
           <div className="flex flex-col gap-2">
