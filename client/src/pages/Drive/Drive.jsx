@@ -5,89 +5,37 @@ import { DriveBreadcrumbs } from "./components/DriveBreadcrumbs";
 import { FileGrid } from "./components/FileGrid";
 import { RenameItemDialog } from "./components/RenameItemDialog";
 import { DeleteDialog } from "./components/DeleteDialog";
-
-const ROOT_ID = "root";
+import { useQuery } from "@tanstack/react-query";
+import { getFolderItems, getFolderPath } from "./api/drive.api";
 
 const Drive = () => {
-  const [items, setItems] = useState(() => {
-    const saved = sessionStorage.getItem("drive_items");
-    if (saved) {
-      return JSON.parse(saved).map((item) => ({
-        ...item,
-        createdAt: new Date(item.klcreatedAt),
-        updatedAt: new Date(item.updatedAt),
-      }));
-    }
-    return [
-      {
-        id: "folder-1",
-        name: "My Projects",
-        type: "folder",
-        parentId: ROOT_ID,
-        color: "#3b82f6",
-        tags: [],
-        createdAt: new Date(),
-        updatedAt: new Date(),
-        itemCount: 12,
-      },
-      {
-        id: "folder-2",
-        name: "Documents",
-        type: "folder",
-        parentId: ROOT_ID,
-        color: "#10b981",
-        tags: [],
-        createdAt: new Date(),
-        updatedAt: new Date(),
-        itemCount: 4,
-      },
-      {
-        id: "file-1",
-        name: "Project_Proposal.pdf",
-        type: "file",
-        parentId: ROOT_ID,
-        color: "#fff",
-        mimeType: "pdf",
-        tags: [],
-        createdAt: new Date(),
-        updatedAt: new Date(),
-      },
-      {
-        id: "file-2",
-        name: "design_system_v1.fig",
-        type: "file",
-        parentId: ROOT_ID,
-        color: "#fff",
-        mimeType: "fig",
-        tags: [],
-        createdAt: new Date(),
-        updatedAt: new Date(),
-      },
-    ];
-  });
-
   const [currentFolderId, setCurrentFolderId] = useState(() => {
-    return sessionStorage.getItem("drive_currentFolderId") || ROOT_ID;
+    const saved = sessionStorage.getItem("drive_currentFolderId");
+    return saved === "null" ? null : saved;
   });
-
-  const [selectedItemId, setSelectedItemId] = useState(null);
+  const [selectedItemId, setSelectedItemId] = useState(() => null);
 
   const [viewMode, setViewMode] = useState(() => {
     return sessionStorage.getItem("drive_viewMode") || "grid";
   });
 
-  // Rename Dialog State
   const [renameDialogOpen, setRenameDialogOpen] = useState(false);
   const [itemToRename, setItemToRename] = useState(null);
 
-  // Delete Dialog State
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
   const [itemToDelete, setItemToDelete] = useState(null);
 
-  // ... effects ...
-  useEffect(() => {
-    sessionStorage.setItem("drive_items", JSON.stringify(items));
-  }, [items]);
+  const { data: items, isLoading: isLoadingItems } = useQuery({
+    queryKey: ["getFolderItems", currentFolderId],
+    queryFn: async () => await getFolderItems(currentFolderId),
+    select: (res) => res.data,
+  });
+
+  const { data: breadcrumbs, isLoading: isLoadingBreadcrumbs } = useQuery({
+    queryKey: ["getFolderPath", currentFolderId],
+    queryFn: async () => await getFolderPath(currentFolderId),
+    select: (res) => res.data,
+  });
 
   useEffect(() => {
     sessionStorage.setItem("drive_currentFolderId", currentFolderId);
@@ -97,38 +45,20 @@ const Drive = () => {
     sessionStorage.setItem("drive_viewMode", viewMode);
   }, [viewMode]);
 
-  const currentItems = items.filter(
-    (item) => item.parentId === currentFolderId
-  );
-
-  const getBreadcrumbs = () => {
-    if (currentFolderId === ROOT_ID) return [{ id: ROOT_ID, name: "My Drive" }];
-
-    const crumbs = [];
-    let curr = items.find((i) => i.id === currentFolderId);
-    while (curr) {
-      crumbs.unshift({ id: curr.id, name: curr.name });
-      curr = items.find((i) => i.id === curr.parentId);
-    }
-    crumbs.unshift({ id: ROOT_ID, name: "My Drive" });
-    return crumbs;
-  };
-
   const navigateBack = () => {
-    if (currentFolderId === ROOT_ID) return;
-    const currentFolder = items.find((i) => i.id === currentFolderId);
-    if (currentFolder && currentFolder.parentId) {
-      setCurrentFolderId(currentFolder.parentId);
-    } else {
-      setCurrentFolderId(ROOT_ID);
-    }
+    if (!breadcrumbs.length) return;
+
+    const parent =
+      breadcrumbs.length > 1 ? breadcrumbs[breadcrumbs.length - 2] : null;
+
+    setCurrentFolderId(parent?.id ?? null);
   };
 
   const createFolder = ({ name, color }) => {
     const item = {
       id: crypto.randomUUID(),
       name: name || "New Folder",
-      type: "folder",
+      type: "FOLDER",
       parentId: currentFolderId,
       color: color || "#fff",
       tags: [],
@@ -144,7 +74,7 @@ const Drive = () => {
     const item = {
       id: crypto.randomUUID(),
       name: file.name,
-      type: "file",
+      type: "FILE",
       parentId: currentFolderId,
       color: "#fff",
       tags: [],
@@ -172,7 +102,7 @@ const Drive = () => {
         let ids = children.map((child) => child.id);
 
         children.forEach((child) => {
-          if (child.type === "folder") {
+          if (child.type === "FOLDER") {
             ids = [...ids, ...findAllDescendants(child.id)];
           }
         });
@@ -220,6 +150,10 @@ const Drive = () => {
     setSelectedItemId(null);
   };
 
+  const currentItems = items?.filter(
+    (item) => item.parentId === currentFolderId
+  );
+
   return (
     <div className="flex h-full w-full text-white overflow-hidden font-sans col-span-2">
       <DriveSidebar onCreateFolder={createFolder} onUploadFile={uploadFile} />
@@ -231,17 +165,18 @@ const Drive = () => {
         <DriveHeader viewMode={viewMode} setViewMode={setViewMode} />
 
         <DriveBreadcrumbs
-          breadcrumbs={getBreadcrumbs()}
+          breadcrumbs={breadcrumbs || []}
           onNavigate={openFolder}
           onBack={navigateBack}
         />
 
         <FileGrid
-          items={currentItems}
+          items={currentItems || []}
           onFolderClick={openFolder}
           viewMode={viewMode}
           onDelete={initiateDelete}
           onRename={initiateRename}
+          isLoading={isLoadingItems}
         />
 
         <RenameItemDialog

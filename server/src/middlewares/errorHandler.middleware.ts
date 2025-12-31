@@ -8,11 +8,12 @@ const errorHandler = (
   res: Response,
   _next: NextFunction
 ) => {
+  console.log("Error: ", error);
+
   let apiError: ApiError;
 
   if (error instanceof ApiError) {
     apiError = error;
-    console.log("ApiError", apiError);
   } else {
     apiError = dbErrorHandler(error);
   }

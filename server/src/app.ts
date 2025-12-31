@@ -2,10 +2,18 @@ import express, { Express, Router } from "express";
 import fs from "fs";
 import path from "path";
 import { fileURLToPath, pathToFileURL } from "url";
+import cors from "cors";
 
 import errorHandler from "./middlewares/errorHandler.middleware.js";
 
 export const app = express();
+
+app.use(
+  cors({
+    origin: "http://localhost:5173",
+    credentials: true,
+  })
+);
 
 app.use(express.json());
 

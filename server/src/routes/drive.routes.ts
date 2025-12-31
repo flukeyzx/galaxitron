@@ -1,8 +1,19 @@
 import { Router } from "express";
-import { createFolderController } from "../controllers/drive.controller.js";
+import asyncHandler from "../utils/asyncHandler.js";
+import {
+  createFileController,
+  createFolderController,
+  deleteItemController,
+  getFolderItemsController,
+  getFolderPathController,
+} from "../controllers/drive.controller.js";
 
 const router = Router();
 
-router.post("/folder", createFolderController);
+router.get("/:folderId", asyncHandler(getFolderItemsController));
+router.get("/path/:folderId", asyncHandler(getFolderPathController));
+router.post("/folder", asyncHandler(createFolderController));
+router.post("/file", asyncHandler(createFileController));
+router.delete("/:itemId", asyncHandler(deleteItemController));
 
 export default router;

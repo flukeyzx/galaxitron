@@ -21,6 +21,7 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
+import { DriveSkeleton } from "./DriveSkeleton";
 
 const getFileIcon = (mimeType, className = "h-8 w-8") => {
   if (mimeType === "pdf")
@@ -192,88 +193,98 @@ const FileCard = ({ item, onDelete, onRename }) => (
   </ContextMenu>
 );
 
-const ListView = ({ items, onFolderClick, onDelete, onRename }) => (
-  <GlassCard className="max-w-full">
-    <div className="grid grid-cols-13 gap-4 px-4 py-3 border-b border-slate-800/50 text-sm font-semibold text-slate-300 uppercase tracking-wider sticky top-0 backdrop-blur-md z-10">
-      <div className="col-span-6 pl-2">Name</div>
-      <div className="col-span-2">Owner</div>
-      <div className="col-span-3">Last Modified</div>
-      <div className="col-span-2 text-right pr-4">File Size</div>
-    </div>
+const ListView = ({ items, onFolderClick, onDelete, onRename }) => {
+  const formatDate = (date) => {
+    if (!date) return "-";
+    const d = new Date(date);
+    return isNaN(d.getTime())
+      ? "-"
+      : d.toLocaleDateString(undefined, {
+          month: "short",
+          day: "numeric",
+          year: "numeric",
+        });
+  };
 
-    <div className="space-y-1 mt-2">
-      {items.map((item) => (
-        <ContextMenu key={item.id}>
-          <ContextMenuTrigger>
-            <div
-              onDoubleClick={() =>
-                item.type === "folder" && onFolderClick(item.id)
-              }
-              className="grid grid-cols-13 gap-4 px-4 py-3 rounded-lg hover:bg-slate-700/40 text-base text-slate-300 items-center cursor-pointer transition-colors group border border-transparent hover:border-slate-600"
-            >
-              <div className="col-span-6 flex items-center gap-3 overflow-hidden">
-                <div
-                  className="shrink-0 transition-colors"
-                  style={{
-                    color:
-                      item.type === "folder"
-                        ? item.color || "#3b82f6"
-                        : undefined,
-                  }}
-                >
-                  {item.type === "folder" ? (
-                    <Folder className="h-5 w-5 fill-current" />
-                  ) : (
-                    getFileIcon(item.mimeType, "h-5 w-5")
-                  )}
+  return (
+    <GlassCard className="max-w-full">
+      <div className="grid grid-cols-13 gap-4 px-4 py-3 border-b border-slate-800/50 text-sm font-semibold text-slate-300 uppercase tracking-wider sticky top-0 backdrop-blur-md z-10">
+        <div className="col-span-6 pl-2">Name</div>
+        <div className="col-span-2">Owner</div>
+        <div className="col-span-3">Last Modified</div>
+        <div className="col-span-2 text-right pr-4">File Size</div>
+      </div>
+
+      <div className="space-y-1 mt-2">
+        {items.map((item) => (
+          <ContextMenu key={item.id}>
+            <ContextMenuTrigger>
+              <div
+                onDoubleClick={() =>
+                  item.type === "FOLDER" && onFolderClick(item.id)
+                }
+                className="grid grid-cols-13 gap-4 px-4 py-3 rounded-lg hover:bg-slate-700/40 text-base text-slate-300 items-center cursor-pointer transition-colors group border border-transparent hover:border-slate-600"
+              >
+                <div className="col-span-6 flex items-center gap-3 overflow-hidden">
+                  <div
+                    className="shrink-0 transition-colors"
+                    style={{
+                      color:
+                        item.type === "FOLDER"
+                          ? item.color || "#3b82f6"
+                          : undefined,
+                    }}
+                  >
+                    {item.type === "FOLDER" ? (
+                      <Folder className="h-5 w-5 fill-current" />
+                    ) : (
+                      getFileIcon(item.mimeType, "h-5 w-5")
+                    )}
+                  </div>
+                  <span className="truncate font-medium text-slate-200 group-hover:text-white transition-colors">
+                    {item.name}
+                  </span>
                 </div>
-                <span className="truncate font-medium text-slate-200 group-hover:text-white transition-colors">
-                  {item.name}
-                </span>
-              </div>
 
-              <div className="col-span-2 flex items-center gap-1">
-                <div className="h-7 w-7 rounded-full bg-blue-500/20 text-blue-400 flex items-center justify-center text-xs font-bold">
-                  ME
+                <div className="col-span-2 flex items-center gap-1">
+                  <div className="h-7 w-7 rounded-full bg-blue-500/20 text-blue-400 flex items-center justify-center text-xs font-bold">
+                    ME
+                  </div>
+                  <span className="text-slate-400 text-sm">Me</span>
                 </div>
-                <span className="text-slate-400 text-sm">Me</span>
-              </div>
 
-              <div className="col-span-3 text-slate-400 text-sm">
-                {item.updatedAt.toLocaleDateString(undefined, {
-                  month: "short",
-                  day: "numeric",
-                  year: "numeric",
-                })}
-              </div>
+                <div className="col-span-3 text-slate-400 text-sm">
+                  {formatDate(item.updatedAt)}
+                </div>
 
-              <div className="col-span-2 text-right pr-4 text-slate-400 text-sm font-mono">
-                {item.type === "folder" ? "-" : "2.4 MB"}
+                <div className="col-span-2 text-right pr-4 text-slate-400 text-sm font-mono">
+                  {item.type === "FOLDER" ? "-" : "2.4 MB"}
+                </div>
               </div>
-            </div>
-          </ContextMenuTrigger>
-          <ContextMenuContent>
-            <ContextMenuItem onClick={() => onRename(item.id)}>
-              <Pencil className="mr-2 h-4 w-4" /> Rename
-            </ContextMenuItem>
-            {item.type !== "folder" && (
-              <ContextMenuItem>
-                <Download className="mr-2 h-4 w-4" /> Download
+            </ContextMenuTrigger>
+            <ContextMenuContent>
+              <ContextMenuItem onClick={() => onRename(item.id)}>
+                <Pencil className="mr-2 h-4 w-4" /> Rename
               </ContextMenuItem>
-            )}
-            <ContextMenuSeparator />
-            <ContextMenuItem
-              onClick={() => onDelete(item.id)}
-              className="text-red-500 focus:text-red-500 hover:text-red-500"
-            >
-              <Trash className="mr-2 h-4 w-4" /> Delete
-            </ContextMenuItem>
-          </ContextMenuContent>
-        </ContextMenu>
-      ))}
-    </div>
-  </GlassCard>
-);
+              {item.type !== "FOLDER" && (
+                <ContextMenuItem>
+                  <Download className="mr-2 h-4 w-4" /> Download
+                </ContextMenuItem>
+              )}
+              <ContextMenuSeparator />
+              <ContextMenuItem
+                onClick={() => onDelete(item.id)}
+                className="text-red-500 focus:text-red-500 hover:text-red-500"
+              >
+                <Trash className="mr-2 h-4 w-4" /> Delete
+              </ContextMenuItem>
+            </ContextMenuContent>
+          </ContextMenu>
+        ))}
+      </div>
+    </GlassCard>
+  );
+};
 
 export const FileGrid = ({
   items,
@@ -281,9 +292,18 @@ export const FileGrid = ({
   viewMode = "grid",
   onDelete,
   onRename,
+  isLoading,
 }) => {
-  const folders = items.filter((i) => i.type === "folder");
-  const files = items.filter((i) => i.type === "file");
+  if (isLoading) {
+    return (
+      <div className="p-6 overflow-y-auto h-[calc(100vh-160px)] scrollbar-thin scrollbar-thumb-slate-800 scrollbar-track-transparent">
+        <DriveSkeleton viewMode={viewMode} />
+      </div>
+    );
+  }
+
+  const folders = items.filter((i) => i.type === "FOLDER");
+  const files = items.filter((i) => i.type === "FILE");
 
   if (items.length === 0) {
     return (
